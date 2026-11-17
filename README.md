@@ -7,6 +7,8 @@
 Демо-бібліотека, локальні файли, плейлисти, улюблене, історія та налаштування працюють
 **без бекенду**. Спільнота вмикається після додавання ключів Supabase.
 
+🌐 Жива версія: <https://sashamng6-png.github.io/music-player-1228/>
+
 ---
 
 ## Можливості
@@ -111,12 +113,17 @@ VITE_SUPABASE_ANON_KEY=ваш_anon_key
 
 Репозиторій: <https://github.com/sashamng6-png/music-player-1228>
 
+GitHub Pages уже увімкнено (**Source: GitHub Actions**), а деплой запускається
+автоматично на кожен push у `main`.
+
 1. Додайте secrets у GitHub: **Settings → Secrets and variables → Actions**:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
-2. У **Settings → Pages** виберіть **Source: GitHub Actions**.
-3. Запуште зміни в `main` — workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
-   збере проєкт і опублікує `dist`.
+2. Після додавання secrets перезапустіть останній workflow (**Actions → Deploy MusicFlow
+   to GitHub Pages → Re-run all jobs**), щоб зібрати сайт уже з ключами.
+
+> Поки secrets не додані, сайт працює в локальному режимі («Спільнота» показує
+> інструкцію підключення Supabase).
 
 Проєкт використовує `base: './'` і `HashRouter`, тому працює на GitHub Pages без
 додаткових rewrite-правил.
