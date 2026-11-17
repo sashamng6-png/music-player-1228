@@ -110,7 +110,7 @@ function safeProgress(callback, value) {
 }
 
 export function CommunityProvider({ children }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { setCommunityTracks, currentTrackId, stopPlayback } = useApp();
 
   const [rows, setRows] = useState([]);
@@ -386,15 +386,16 @@ export function CommunityProvider({ children }) {
           : trackOrId?.remoteId || trackOrId?.id;
       const current = findRow(remoteId);
       if (!current) throw new Error('Трек не знайдено. Оновіть сторінку.');
-      if (String(current.user_id) !== String(account.id)) {
+      const isOwner = String(current.user_id) === String(account.id);
+      if (!isOwner && !isAdmin) {
         throw new Error('Ви можете видаляти лише власні треки.');
       }
 
-      const { error: deleteError } = await supabase
-        .from('tracks')
-        .delete()
-        .eq('id', remoteId)
-        .eq('user_id', account.id);
+      let deleteQuery = supabase.from('tracks').delete().eq('id', remoteId);
+      // Модератор видаляє будь-який трек, власник — лише свій.
+      if (!isAdmin) deleteQuery = deleteQuery.eq('user_id', account.id);
+
+      const { error: deleteError } = await deleteQuery;
 
       if (deleteError) {
         throw new Error(friendlyDataError(deleteError, 'Не вдалося видалити трек.'));
@@ -418,7 +419,7 @@ export function CommunityProvider({ children }) {
       setRows((prev) => prev.filter((row) => row.id !== remoteId));
       return true;
     },
-    [currentTrackId, findRow, requireUser, stopPlayback],
+    [currentTrackId, findRow, isAdmin, requireUser, stopPlayback],
   );
 
   const loadProfile = useCallback(

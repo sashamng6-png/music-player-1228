@@ -34,6 +34,7 @@ export function AuthProvider({ children }) {
   const [sessionLoading, setSessionLoading] = useState(isSupabaseConfigured);
   const [profileLoading, setProfileLoading] = useState(false);
   const [profileError, setProfileError] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState('signin');
 
@@ -138,6 +139,36 @@ export function AuthProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
+  /* Moderators can delete other people's tracks (see supabase/schema.sql). */
+  useEffect(() => {
+    if (!supabase || !user?.id) {
+      setIsAdmin(false);
+      return undefined;
+    }
+    let alive = true;
+    supabase
+      .from('admins')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (!alive) return;
+        if (
+          error &&
+          error.code !== 'PGRST116' &&
+          error.code !== 'PGRST205' &&
+          !/Could not find the table|schema cache/i.test(error.message || '')
+        ) {
+          console.warn('[Music Player 1228] Не вдалося перевірити права модератора', error);
+        }
+        setIsAdmin(Boolean(data));
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [user?.id]);
+
   const signIn = useCallback(async (email, password) => {
     if (!supabase) throw new Error('Supabase не налаштовано.');
     const { error } = await supabase.auth.signInWithPassword({
@@ -217,6 +248,7 @@ export function AuthProvider({ children }) {
       profile,
       profileLoading,
       profileError,
+      isAdmin,
       loading: sessionLoading,
       authOpen,
       authMode,
@@ -236,6 +268,7 @@ export function AuthProvider({ children }) {
       profile,
       profileLoading,
       profileError,
+      isAdmin,
       sessionLoading,
       authOpen,
       authMode,

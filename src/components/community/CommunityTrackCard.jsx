@@ -1,10 +1,10 @@
-import { Heart, Pause, Play, UserRound } from 'lucide-react';
+import { Heart, Pause, Play, Trash2, UserRound } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { cn, formatRelativeDate, formatTime } from '../../lib/utils';
 import CoverArt from '../ui/CoverArt';
 
-export default function CommunityTrackCard({ track, contextIds, className }) {
+export default function CommunityTrackCard({ track, contextIds, className, onDelete }) {
   const {
     playTrack,
     togglePlay,
@@ -74,7 +74,8 @@ export default function CommunityTrackCard({ track, contextIds, className }) {
           type="button"
           onClick={() => toggleFavorite(track.id)}
           className={cn(
-            'absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-md transition hover:bg-black/65 active:scale-90',
+            'absolute top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-md transition hover:bg-black/65 active:scale-90',
+            onDelete ? 'right-11' : 'right-2',
             isFavorite && 'text-rose-400',
           )}
           aria-label={isFavorite ? 'Видалити з улюблених' : 'Додати до улюблених'}
@@ -82,6 +83,18 @@ export default function CommunityTrackCard({ track, contextIds, className }) {
         >
           <Heart className={cn('h-4 w-4', isFavorite && 'fill-current')} />
         </button>
+
+        {onDelete ? (
+          <button
+            type="button"
+            onClick={() => onDelete(track)}
+            className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-md transition hover:bg-rose-500/85 active:scale-90"
+            aria-label={`Видалити ${track.title}`}
+            title="Видалити трек (модератор)"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        ) : null}
       </div>
 
       <div className="min-w-0 flex-1 px-0.5 pb-0.5 pt-2.5">

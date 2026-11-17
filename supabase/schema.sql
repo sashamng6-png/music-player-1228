@@ -129,7 +129,50 @@ left join public.profiles p on p.id = u.id
 where p.id is null;
 
 -- ---------------------------------------------------------------------
--- 5. Row Level Security
+-- 5. Модератори (адміни) — можуть видаляти будь-які треки
+-- ---------------------------------------------------------------------
+create table if not exists public.admins (
+  user_id uuid primary key references public.profiles (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+comment on table public.admins is
+  'Модератори Music Player 1228: можуть видаляти чужі треки. Керується лише через SQL Editor.';
+
+alter table public.admins enable row level security;
+
+-- Підписані користувачі можуть дізнатися, чи вони модератори (для UI).
+drop policy if exists "Admins are readable by signed-in users" on public.admins;
+create policy "Admins are readable by signed-in users"
+  on public.admins for select
+  to authenticated
+  using (true);
+
+-- Політик INSERT/UPDATE/DELETE немає: додавати й прибирати модераторів
+-- можна лише вручну через SQL Editor (або service_role).
+
+create or replace function public.is_admin(check_user uuid default auth.uid())
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (select 1 from public.admins a where a.user_id = check_user);
+$$;
+
+grant execute on function public.is_admin(uuid) to anon, authenticated;
+grant select on public.admins to authenticated;
+
+-- Додайте власний акаунт як модератора (замініть email на свій).
+insert into public.admins (user_id)
+select u.id
+from auth.users u
+where lower(u.email) = lower('olyaninos07@gmail.com')
+on conflict (user_id) do nothing;
+
+-- ---------------------------------------------------------------------
+-- 6. Row Level Security
 -- ---------------------------------------------------------------------
 alter table public.profiles enable row level security;
 alter table public.tracks enable row level security;
@@ -183,10 +226,13 @@ drop policy if exists "Owners delete their tracks" on public.tracks;
 create policy "Owners delete their tracks"
   on public.tracks for delete
   to authenticated
-  using (auth.uid() = user_id);
+  using (
+    auth.uid() = user_id
+    or public.is_admin(auth.uid())
+  );
 
 -- ---------------------------------------------------------------------
--- 6. Storage buckets: tracks (аудіо) і covers (обкладинки)
+-- 7. Storage buckets: tracks (аудіо) і covers (обкладинки)
 -- ---------------------------------------------------------------------
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values
@@ -257,16 +303,20 @@ create policy "MusicFlow users delete own files"
   to authenticated
   using (
     bucket_id in ('tracks', 'covers')
-    and (storage.foldername(name))[1] = auth.uid()::text
+    and (
+      (storage.foldername(name))[1] = auth.uid()::text
+      or public.is_admin(auth.uid())
+    )
   );
 
 -- ---------------------------------------------------------------------
--- 7. Перевірка
+-- 8. Перевірка
 -- ---------------------------------------------------------------------
 -- select tablename, rowsecurity from pg_tables
---   where schemaname = 'public' and tablename in ('profiles', 'tracks');
+--   where schemaname = 'public' and tablename in ('profiles', 'tracks', 'admins');
 -- select id, public, file_size_limit, allowed_mime_types from storage.buckets
 --   where id in ('tracks', 'covers');
+-- select a.user_id, p.username from public.admins a join public.profiles p on p.id = a.user_id;
 
 -- Оновити кеш PostgREST, щоб одразу працював join tracks → profiles.
 notify pgrst, 'reload schema';

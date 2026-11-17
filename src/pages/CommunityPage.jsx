@@ -20,6 +20,7 @@ import { useCommunity } from '../context/CommunityContext';
 import { cn, formatTotalDuration, pluralTracks } from '../lib/utils';
 import CommunityTrackCard from '../components/community/CommunityTrackCard';
 import SetupNotice from '../components/community/SetupNotice';
+import ConfirmDialog from '../components/ui/ConfirmDialog';
 import EmptyState from '../components/ui/EmptyState';
 
 const SORT_OPTIONS = [
@@ -43,8 +44,14 @@ function SkeletonCard() {
 }
 
 export default function CommunityPage() {
-  const { playableTracks, playCollection, searchQuery, setSearchQuery } = useApp();
-  const { user, openAuth, configured: authConfigured } = useAuth();
+  const {
+    playableTracks,
+    playCollection,
+    searchQuery,
+    setSearchQuery,
+    pushToast,
+  } = useApp();
+  const { user, openAuth, configured: authConfigured, isAdmin } = useAuth();
   const {
     configured,
     tracks,
@@ -52,12 +59,15 @@ export default function CommunityPage() {
     error,
     refresh,
     lastLoadedAt,
+    deleteTrack,
   } = useCommunity();
   const navigate = useNavigate();
 
   const [genre, setGenre] = useState('Усі');
   const [sort, setSort] = useState('date-desc');
   const [refreshing, setRefreshing] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const genres = useMemo(() => {
     const used = Array.from(new Set(tracks.map((track) => track.genre).filter(Boolean)));
@@ -113,6 +123,20 @@ export default function CommunityPage() {
       await refresh();
     } finally {
       setRefreshing(false);
+    }
+  };
+
+  const handleModeratorDelete = async () => {
+    if (!pendingDelete || deleting) return;
+    setDeleting(true);
+    try {
+      await deleteTrack(pendingDelete.remoteId);
+      pushToast(`Трек «${pendingDelete.title}» видалено`, 'success');
+      setPendingDelete(null);
+    } catch (deleteError) {
+      pushToast(deleteError.message || 'Не вдалося видалити трек.', 'error');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -276,7 +300,12 @@ export default function CommunityPage() {
           </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6">
             {filtered.map((track) => (
-              <CommunityTrackCard key={track.id} track={track} contextIds={contextIds} />
+              <CommunityTrackCard
+                key={track.id}
+                track={track}
+                contextIds={contextIds}
+                onDelete={isAdmin ? (item) => setPendingDelete(item) : undefined}
+              />
             ))}
           </div>
         </>
@@ -318,7 +347,10 @@ export default function CommunityPage() {
           Треки спільноти зберігаються у Supabase Storage. Слухати й шукати може кожен.
         </span>
         {user ? (
-          <span>Ви увійшли як {user.email}</span>
+          <span>
+            Ви увійшли як {user.email}
+            {isAdmin ? ' · модератор' : ''}
+          </span>
         ) : (
           <button
             type="button"
@@ -329,6 +361,21 @@ export default function CommunityPage() {
           </button>
         )}
       </div>
+
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        title="Видалити трек назавжди?"
+        description={
+          pendingDelete
+            ? `«${pendingDelete.title}» (${pendingDelete.authorName || pendingDelete.artist}) зникне зі спільноти, а аудіофайл і обкладинка будуть видалені зі Storage. Цю дію не можна скасувати.`
+            : ''
+        }
+        confirmLabel={deleting ? 'Видаляємо...' : 'Видалити трек'}
+        onCancel={() => {
+          if (!deleting) setPendingDelete(null);
+        }}
+        onConfirm={handleModeratorDelete}
+      />
     </div>
   );
 }

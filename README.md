@@ -110,6 +110,29 @@ VITE_SUPABASE_ANON_KEY=ваш_anon_key
 3. Дочекайтеся прогресу 100% — трек з’явиться у «Спільноті» та «Моїх треках».
 4. Увійдіть іншим акаунтом: чужий трек можна слухати, але кнопок редагування/видалення немає.
 
+### 5. Модератори (видалення чужих треків)
+
+Модератори зберігаються в таблиці `public.admins`. У «Спільноті» вони бачать кнопку
+видалення на кожній картці, а RLS дозволяє їм видаляти чужі треки разом із файлами у Storage.
+
+Додати модератора (SQL Editor):
+
+```sql
+insert into public.admins (user_id)
+select id from auth.users where lower(email) = lower('email@example.com')
+on conflict (user_id) do nothing;
+```
+
+Прибрати права:
+
+```sql
+delete from public.admins
+where user_id = (select id from auth.users where lower(email) = lower('email@example.com'));
+```
+
+У `supabase/schema.sql` уже є рядок, який додає `olyaninos07@gmail.com` як модератора —
+за потреби замініть email там.
+
 ---
 
 ## Деплой на GitHub Pages
@@ -145,6 +168,8 @@ npm run deploy
 - `tracks`: `SELECT` — усім для `published = true`; `INSERT` — лише `auth.uid() = user_id`;
   `UPDATE` / `DELETE` — лише власник.
 - `profiles`: публічне читання; зміна — лише власного профілю.
+- `admins`: читають лише авторизовані; додавати/прибирати модераторів можна тільки через
+  SQL Editor (немає INSERT/UPDATE/DELETE політик, тож користувач не може зробити себе адміном).
 - Storage: публічне читання файлів; завантаження — лише у власну папку `<user_id>/...`;
   зміна / видалення — лише власних об’єктів.
 - Обмеження типів і розмірів задані на рівні бакетів **і** перевіряються у клієнті.
