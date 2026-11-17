@@ -733,6 +733,19 @@ export function AppProvider({ children }) {
       setPlaybackFailure('Аудіофайл для цього треку не знайдено.', track.id);
       return;
     }
+    /* The visualizer routes the element through WebAudio. Cross-origin media
+       (Supabase Storage) must be fetched in CORS mode, otherwise the graph —
+       and therefore the speakers — receive silence. */
+    try {
+      const resolved = new URL(track.src, window.location.href);
+      if (resolved.origin !== window.location.origin) {
+        audio.crossOrigin = 'anonymous';
+      } else {
+        audio.removeAttribute('crossorigin');
+      }
+    } catch {
+      audio.crossOrigin = 'anonymous';
+    }
     audio.src = track.src;
     try {
       audio.load();
