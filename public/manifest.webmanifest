@@ -1,0 +1,56 @@
+{
+  "name": "Music Player 1228",
+  "short_name": "Music 1228",
+  "description": "Музичний плеєр 1228: бібліотека, плейлисти, улюблене, історія, візуалізатор і спільнота треків.",
+  "lang": "uk",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07080c",
+  "theme_color": "#07080c",
+  "categories": ["music", "entertainment"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Спільнота",
+      "short_name": "Спільнота",
+      "url": "./#/community",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Мої треки",
+      "short_name": "Мої треки",
+      "url": "./#/my-tracks",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Улюблене",
+      "short_name": "Улюблене",
+      "url": "./#/favorites",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

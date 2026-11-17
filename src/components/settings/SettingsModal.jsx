@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 import {
+  CheckCircle2,
   Database,
   Download,
   Eye,
   HardDrive,
+  MonitorDown,
   Moon,
   Palette,
   PlayCircle,
@@ -16,6 +18,7 @@ import {
   Volume2,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import useInstallPrompt from '../../hooks/useInstallPrompt';
 import { ACCENTS } from '../../data/library';
 import { cn, formatTotalDuration } from '../../lib/utils';
 import Modal from '../ui/Modal';
@@ -89,6 +92,7 @@ export default function SettingsModal() {
   } = useApp();
   const importRef = useRef(null);
   const [confirm, setConfirm] = useState(null);
+  const { canInstall, installed, promptInstall } = useInstallPrompt();
 
   const totalPlaylistTracks = playlists.reduce((sum, playlist) => sum + playlist.trackIds.length, 0);
   const libraryDuration = localTracks.reduce((sum, track) => sum + (track.duration || 0), 0);
@@ -106,6 +110,14 @@ export default function SettingsModal() {
     if (!file) return;
     const ok = await importData(file);
     if (ok) pushToast('Налаштування та добірки оновлено з файлу', 'success');
+  };
+
+  const handleInstall = async () => {
+    const accepted = await promptInstall();
+    pushToast(
+      accepted ? 'Music Player 1228 встановлюється…' : 'Встановлення скасовано',
+      accepted ? 'success' : 'info',
+    );
   };
 
   return (
@@ -283,6 +295,41 @@ export default function SettingsModal() {
           </Section>
 
           <Section
+            icon={MonitorDown}
+            title="Застосунок на комп'ютері"
+            description="Music Player 1228 встановлюється як окрема програма: іконка в «Пуску», власне вікно без адресного рядка, офлайн-бібліотека."
+          >
+            {installed ? (
+              <div className="flex items-start gap-2.5 rounded-xl border border-accent/30 bg-accent/[0.07] px-3 py-2.5">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                <div>
+                  <p className="text-[12px] font-bold text-ink">Застосунок уже встановлено</p>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
+                    Відкривайте його з меню «Пуск» або з панелі задач.
+                  </p>
+                </div>
+              </div>
+            ) : canInstall ? (
+              <button type="button" onClick={handleInstall} className="btn-primary w-full sm:w-auto">
+                <MonitorDown className="h-4 w-4" />
+                Встановити застосунок
+              </button>
+            ) : (
+              <div className="space-y-1.5 rounded-xl border border-line/60 bg-surface/50 px-3 py-2.5 text-[11px] leading-relaxed text-muted">
+                <p className="text-[12px] font-bold text-ink">Як встановити вручну</p>
+                <p>Chrome / Edge: меню ⋮ → «Встановити Music Player 1228».</p>
+                <p>Android: Chrome → меню ⋮ → «Встановити застосунок».</p>
+                <p>iPhone / iPad: Safari → «Поділитися» → «На Початковий екран».</p>
+              </div>
+            )}
+
+            <p className="mt-3 text-[10px] leading-relaxed text-muted">
+              Плейлисти, улюблене, демо-бібліотека та власні файли працюють офлайн. «Спільнота»,
+              вхід і завантаження треків потребують інтернету.
+            </p>
+          </Section>
+
+          <Section
             icon={Database}
             title="Керування даними"
             description="Ваші плейлисти, улюблене та налаштування зберігаються лише локально."
@@ -406,7 +453,7 @@ export default function SettingsModal() {
           </Section>
 
           <div className="px-1 text-center text-[10px] leading-relaxed text-muted">
-            Music Player 1228 · React + TailwindCSS + HTML5 Audio API · без бекенду
+            Music Player 1228 · React + TailwindCSS + Supabase · встановлюваний PWA
           </div>
         </div>
       </Modal>

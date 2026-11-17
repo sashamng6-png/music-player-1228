@@ -162,11 +162,35 @@ npm run deploy
 
 ---
 
+## Встановлення як програми (PWA)
+
+Застосунок можна встановити на комп'ютер або телефон — він відкриватиметься в окремому
+вікні, без адресного рядка, зі своєю іконкою.
+
+- **Chrome / Edge (Windows, macOS, Linux):** іконка встановлення в адресному рядку або
+  меню ⋮ → «Встановити Music Player 1228». Те саме доступно в **Налаштуваннях** застосунку —
+  кнопка «Встановити застосунок».
+- **Android:** Chrome → меню ⋮ → «Встановити застосунок».
+- **iPhone / iPad:** Safari → «Поділитися» → «На Початковий екран».
+
+Що це дає:
+
+- власне вікно, іконка в «Пуску» та на панелі задач;
+- офлайн-доступ до оболонки, демо-бібліотеки, плейлистів, улюбленого й власних файлів
+  (вони й так зберігаються в IndexedDB);
+- «Спільнота», вхід і завантаження треків, як і раніше, потребують інтернету.
+
+Технічно: `public/manifest.webmanifest`, `public/sw.js` (service worker з кешем оболонки),
+іконки в `public/icons/`, реєстрація — у `src/main.jsx` і лише в production-збірці.
+PWA потребує HTTPS (GitHub Pages це забезпечує; локально працює `localhost`).
+
+---
+
 ## Безпека
 
 - **RLS увімкнено** для `profiles` і `tracks`.
 - `tracks`: `SELECT` — усім для `published = true`; `INSERT` — лише `auth.uid() = user_id`;
-  `UPDATE` / `DELETE` — лише власник.
+  `UPDATE` / `DELETE` — лише власник; `DELETE` також для модератора з `public.admins`.
 - `profiles`: публічне читання; зміна — лише власного профілю.
 - `admins`: читають лише авторизовані; додавати/прибирати модераторів можна тільки через
   SQL Editor (немає INSERT/UPDATE/DELETE політик, тож користувач не може зробити себе адміном).
@@ -194,11 +218,17 @@ src/
     CommunityContext.jsx  # треки спільноти, Storage, CRUD
   lib/
     supabase.js           # клієнт, валідація, upload із прогресом
+  hooks/
+    useInstallPrompt.js   # рідна кнопка «Встановити застосунок» (PWA)
   pages/
     CommunityPage.jsx
     UploadTrackPage.jsx
     MyTracksPage.jsx
     ProfilePage.jsx
+public/
+  manifest.webmanifest    # PWA-манифест
+  sw.js                   # service worker (офлайн-оболонка)
+  icons/                  # іконки 192/512/maskable/apple
 supabase/schema.sql
 .github/workflows/deploy.yml
 ```
