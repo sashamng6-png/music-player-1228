@@ -11,6 +11,7 @@ import {
   Play,
   Search,
   Settings,
+  ShieldCheck,
   Sun,
   UserRound,
   X,
@@ -32,7 +33,7 @@ export default function TopBar() {
     playTrack,
     pushToast,
   } = useApp();
-  const { configured, user, profile, openAuth, signOut } = useAuth();
+  const { configured, user, profile, openAuth, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
   const searchRef = useRef(null);
   const popoverRef = useRef(null);
@@ -331,6 +332,12 @@ export default function TopBar() {
                       {userName || 'Слухач Music Player 1228'}
                     </p>
                     <p className="truncate text-[11px] text-muted">{user.email}</p>
+                    {isAdmin ? (
+                      <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-accent/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-accent">
+                        <ShieldCheck className="h-3 w-3" />
+                        Модератор
+                      </span>
+                    ) : null}
                   </div>
                   <div className="p-1.5">
                     <Link

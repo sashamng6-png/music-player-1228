@@ -9,6 +9,7 @@ import {
   Play,
   RefreshCw,
   Search,
+  ShieldCheck,
   SlidersHorizontal,
   Sparkles,
   Users,
@@ -196,6 +197,16 @@ export default function CommunityPage() {
           </div>
         </div>
       </section>
+
+      {isAdmin ? (
+        <div className="flex items-start gap-2.5 rounded-2xl border border-accent/25 bg-accent/[0.06] px-4 py-3 text-[11px] leading-relaxed text-muted">
+          <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+          <p>
+            <span className="font-bold text-ink">Ви модератор.</span> Можете видаляти будь-який
+            трек спільноти — кнопка-кошик на картці. Редагувати чужі треки не можна.
+          </p>
+        </div>
+      ) : null}
 
       {!configured || !authConfigured ? (
         <SetupNotice title="Спільнота чекає на підключення Supabase" />
