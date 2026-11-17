@@ -1,4 +1,4 @@
-# MusicFlow 🎧
+# Music Player 1228 🎧
 
 Сучасний музичний плеєр на **React + Vite + TailwindCSS** із локальною бібліотекою та
 спільною музичною платформою на **Supabase**: реєстрація, завантаження власних треків,
@@ -119,7 +119,7 @@ GitHub Pages уже увімкнено (**Source: GitHub Actions**), а депл
 1. Додайте secrets у GitHub: **Settings → Secrets and variables → Actions**:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
-2. Після додавання secrets перезапустіть останній workflow (**Actions → Deploy MusicFlow
+2. Після додавання secrets перезапустіть останній workflow (**Actions → Deploy Music Player 1228
    to GitHub Pages → Re-run all jobs**), щоб зібрати сайт уже з ключами.
 
 > Поки secrets не додані, сайт працює в локальному режимі («Спільнота» показує

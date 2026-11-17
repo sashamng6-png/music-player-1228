@@ -187,7 +187,7 @@ export default function TrackForm({
       );
       setSuccess(
         mode === 'create'
-          ? 'Трек опубліковано в спільноті MusicFlow.'
+          ? 'Трек опубліковано в спільноті Music Player 1228.'
           : 'Зміни збережено.',
       );
       setProgress(1);

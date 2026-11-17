@@ -62,7 +62,7 @@ export async function saveAudioBlob(id, blob) {
     await withStore('readwrite', (store) => store.put(blob, id));
     return { persisted: true };
   } catch (error) {
-    console.warn('[MusicFlow] Blob збережено лише в памʼяті', error);
+    console.warn('[Music Player 1228] Blob збережено лише в памʼяті', error);
     memoryFallback.set(id, blob);
     return { persisted: false, error };
   }
@@ -79,7 +79,7 @@ export async function getAudioBlob(id) {
       request.onerror = () => reject(request.error);
     });
   } catch (error) {
-    console.warn('[MusicFlow] Не вдалося прочитати аудіофайл', error);
+    console.warn('[Music Player 1228] Не вдалося прочитати аудіофайл', error);
     return null;
   }
 }
@@ -89,7 +89,7 @@ export async function deleteAudioBlob(id) {
   try {
     await withStore('readwrite', (store) => store.delete(id));
   } catch (error) {
-    console.warn('[MusicFlow] Не вдалося видалити аудіофайл', error);
+    console.warn('[Music Player 1228] Не вдалося видалити аудіофайл', error);
   }
 }
 
@@ -98,6 +98,6 @@ export async function clearAudioBlobs() {
   try {
     await withStore('readwrite', (store) => store.clear());
   } catch (error) {
-    console.warn('[MusicFlow] Не вдалося очистити сховище аудіо', error);
+    console.warn('[Music Player 1228] Не вдалося очистити сховище аудіо', error);
   }
 }

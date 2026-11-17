@@ -110,7 +110,7 @@ export default function AuthModal() {
     <Modal
       open={authOpen}
       onClose={closeAuth}
-      title={isSignup ? 'Створити акаунт' : 'Увійти в MusicFlow'}
+      title={isSignup ? 'Створити акаунт' : 'Увійти в Music Player 1228'}
       description={
         isSignup
           ? 'Публікуйте власні треки, керуйте ними та долучайтесь до спільноти.'

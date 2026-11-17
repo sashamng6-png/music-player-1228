@@ -180,7 +180,7 @@ export default function NowPlayingPanel() {
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-3xl bg-gradient-to-t from-black/55 to-transparent px-4 pb-3 pt-10">
                     <p className="flex items-center gap-1.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/70">
                       <Sparkles className="h-3 w-3" />
-                      MusicFlow original
+                      Music Player 1228 original
                     </p>
                   </div>
                 </div>

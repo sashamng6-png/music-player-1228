@@ -383,7 +383,7 @@ export default function LibraryPage() {
       <div className="flex flex-col items-center justify-between gap-2 rounded-2xl border border-line/50 bg-surface/35 px-4 py-3 text-center text-[10px] text-muted sm:flex-row sm:text-left">
         <span className="flex items-center gap-1.5">
           <ListMusic className="h-3.5 w-3.5 text-accent" />
-          Демо-треки — оригінальні синтезовані записи MusicFlow. Жодних сторонніх аудіофайлів.
+          Демо-треки — оригінальні синтезовані записи Music Player 1228. Жодних сторонніх аудіофайлів.
         </span>
         <span>Локальні файли зберігаються в IndexedDB цього браузера.</span>
       </div>

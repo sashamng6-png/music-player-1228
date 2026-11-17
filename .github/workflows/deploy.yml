@@ -1,4 +1,4 @@
-name: Deploy MusicFlow to GitHub Pages
+name: Deploy Music Player 1228 to GitHub Pages
 
 on:
   push:

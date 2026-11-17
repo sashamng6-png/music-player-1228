@@ -248,7 +248,7 @@ export function AppProvider({ children }) {
             cover: createLocalCover(meta.title, meta.artist),
           });
         } catch (error) {
-          console.warn('[MusicFlow] Не вдалося відновити локальний трек', error);
+          console.warn('[Music Player 1228] Не вдалося відновити локальний трек', error);
         }
       }
       if (cancelled) return;
@@ -335,7 +335,7 @@ export function AppProvider({ children }) {
         audioCtxRef.current.resume().catch(() => {});
       }
     } catch (error) {
-      console.warn('[MusicFlow] Візуалізатор недоступний', error);
+      console.warn('[Music Player 1228] Візуалізатор недоступний', error);
     }
   }, []);
 
@@ -522,7 +522,7 @@ export function AppProvider({ children }) {
           ? `Не вдалося відтворити «${track.title}». Локальний файл переміщено або видалено — додайте його знову.`
           : `Не вдалося відтворити «${track.title}». Файл недоступний або пошкоджений. Спробуйте ще раз.`
         : PLAYBACK_ERROR_FALLBACK;
-      console.warn('[MusicFlow] Помилка відтворення', error);
+      console.warn('[Music Player 1228] Помилка відтворення', error);
       setPlaybackFailure(message, snapshot.currentTrackId);
     },
     [setPlaybackFailure],
@@ -829,7 +829,7 @@ export function AppProvider({ children }) {
         navigator.mediaSession.setPlaybackState(isPlaying ? 'playing' : 'paused');
       }
     } catch (error) {
-      console.warn('[MusicFlow] Media Session недоступний', error);
+      console.warn('[Music Player 1228] Media Session недоступний', error);
     }
     return () => {
       try {
@@ -1000,7 +1000,7 @@ export function AppProvider({ children }) {
           setLocalMeta((prev) => [meta, ...prev]);
           added += 1;
         } catch (error) {
-          console.warn('[MusicFlow] Не вдалося додати файл', error);
+          console.warn('[Music Player 1228] Не вдалося додати файл', error);
           failed += 1;
         }
       }
@@ -1092,7 +1092,7 @@ export function AppProvider({ children }) {
 
   const exportData = useCallback(() => {
     const payload = {
-      app: 'MusicFlow',
+      app: 'Music Player 1228',
       version: 1,
       exportedAt: new Date().toISOString(),
       settings,
@@ -1150,7 +1150,7 @@ export function AppProvider({ children }) {
         pushToast('Дані успішно імпортовано', 'success');
         return true;
       } catch (error) {
-        console.warn('[MusicFlow] Помилка імпорту', error);
+        console.warn('[Music Player 1228] Помилка імпорту', error);
         pushToast('Не вдалося імпортувати файл. Перевірте формат JSON.', 'error');
         return false;
       }

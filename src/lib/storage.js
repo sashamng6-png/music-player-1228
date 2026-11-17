@@ -15,7 +15,7 @@ export function readStored(key, fallback) {
     const parsed = JSON.parse(raw);
     return parsed === undefined || parsed === null ? fallback : parsed;
   } catch (error) {
-    console.warn(`[MusicFlow] Не вдалося прочитати ${key}`, error);
+    console.warn(`[Music Player 1228] Не вдалося прочитати ${key}`, error);
     return fallback;
   }
 }
@@ -25,7 +25,7 @@ export function writeStored(key, value) {
     window.localStorage.setItem(key, JSON.stringify(value));
     return true;
   } catch (error) {
-    console.warn(`[MusicFlow] Не вдалося зберегти ${key}`, error);
+    console.warn(`[Music Player 1228] Не вдалося зберегти ${key}`, error);
     return false;
   }
 }
@@ -34,7 +34,7 @@ export function removeStored(key) {
   try {
     window.localStorage.removeItem(key);
   } catch (error) {
-    console.warn(`[MusicFlow] Не вдалося видалити ${key}`, error);
+    console.warn(`[Music Player 1228] Не вдалося видалити ${key}`, error);
   }
 }
 

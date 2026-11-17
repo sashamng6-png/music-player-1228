@@ -69,7 +69,7 @@ export default function HomePage() {
         <div>
           <p className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.2em] text-accent">
             <Sparkles className="h-3 w-3" />
-            MusicFlow · оригінальна демо-бібліотека
+            Music Player 1228 · оригінальна демо-бібліотека
           </p>
           <h1 className="mt-1.5 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
             {greeting()}, слухачу
@@ -117,7 +117,7 @@ export default function HomePage() {
               <span>{formatTotalDuration(featuredDuration)}</span>
               <span className="h-1 w-1 rounded-full bg-muted/50" />
               <span className="inline-flex items-center gap-1">
-                <Headphones className="h-3 w-3" /> MusicFlow Originals
+                <Headphones className="h-3 w-3" /> Music Player 1228 Originals
               </span>
             </div>
             <div className="mt-6 flex flex-wrap gap-2.5">
@@ -214,7 +214,7 @@ export default function HomePage() {
               Музика від слухачів
             </p>
             <h2 className="mt-1 font-display text-lg font-bold text-ink sm:text-xl">
-              Спільнота MusicFlow
+              Спільнота Music Player 1228
             </h2>
             <p className="mt-1 text-xs leading-relaxed text-muted">
               {communityTracks.length

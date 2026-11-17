@@ -1,9 +1,9 @@
 {
-  "name": "musicflow",
+  "name": "music-player-1228",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "MusicFlow — modern music player built with React, TailwindCSS and the HTML5 Audio API",
+  "description": "Music Player 1228 — modern music player built with React, TailwindCSS and the HTML5 Audio API",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

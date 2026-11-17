@@ -22,7 +22,7 @@ const fallbackProfile = (user) => {
     username:
       user.user_metadata?.username ||
       user.email?.split('@')[0] ||
-      'Слухач MusicFlow',
+      'Слухач Music Player 1228',
     avatar_url: user.user_metadata?.avatar_url || null,
     created_at: user.created_at || new Date().toISOString(),
   };
@@ -50,13 +50,13 @@ export function AuthProvider({ children }) {
       .getSession()
       .then(({ data, error }) => {
         if (!alive) return;
-        if (error) console.warn('[MusicFlow] Не вдалося відновити сесію', error);
+        if (error) console.warn('[Music Player 1228] Не вдалося відновити сесію', error);
         setSession(data?.session || null);
         setSessionLoading(false);
       })
       .catch((error) => {
         if (!alive) return;
-        console.warn('[MusicFlow] Помилка сесії', error);
+        console.warn('[Music Player 1228] Помилка сесії', error);
         setSessionLoading(false);
       });
 
@@ -110,7 +110,7 @@ export function AuthProvider({ children }) {
     const username =
       targetUser.user_metadata?.username ||
       targetUser.email?.split('@')[0] ||
-      'Слухач MusicFlow';
+      'Слухач Music Player 1228';
     const { data: created, error: createError } = await supabase
       .from('profiles')
       .insert({ id: targetUser.id, username })

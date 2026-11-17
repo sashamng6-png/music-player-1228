@@ -8,7 +8,7 @@ export default function Logo({ compact = false, className, onClick }) {
       to="/"
       onClick={onClick}
       className={cn('group flex items-center gap-2.5', className)}
-      aria-label="MusicFlow — на головну"
+      aria-label="Music Player 1228 — на головну"
     >
       <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-accent to-accent2 text-[rgb(var(--accent-contrast))] shadow-glow transition-transform duration-300 group-hover:scale-105">
         <AudioWaveform className="h-5 w-5" strokeWidth={2.4} />
@@ -17,7 +17,7 @@ export default function Logo({ compact = false, className, onClick }) {
       {!compact ? (
         <span className="min-w-0">
           <span className="block font-display text-[15px] font-bold leading-tight tracking-tight text-ink">
-            Music<span className="text-gradient">Flow</span>
+            Music<span className="text-gradient"> Player</span> 1228
           </span>
           <span className="block text-[9px] font-semibold uppercase tracking-[0.18em] text-muted">
             modern player

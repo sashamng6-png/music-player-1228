@@ -205,7 +205,7 @@ export default function PlayerBar() {
                 {currentTrack?.title || 'Обери трек'}
               </p>
               <p className="truncate text-[11px] text-muted">
-                {currentTrack ? `${currentTrack.artist} · ${currentTrack.album}` : 'MusicFlow готова до музики'}
+                {currentTrack ? `${currentTrack.artist} · ${currentTrack.album}` : 'Music Player 1228 готова до музики'}
               </p>
             </div>
             {currentTrack ? (

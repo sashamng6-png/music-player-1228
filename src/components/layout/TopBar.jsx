@@ -311,7 +311,7 @@ export default function TopBar() {
                 className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-accent to-accent2 text-[11px] font-extrabold text-[rgb(var(--accent-contrast))] shadow-glow ring-2 ring-transparent transition hover:ring-accent/40"
                 aria-label="Меню акаунта"
                 aria-expanded={userMenuOpen}
-                title={userName || 'Акаунт MusicFlow'}
+                title={userName || 'Акаунт Music Player 1228'}
               >
                 {profile?.avatar_url ? (
                   <img
@@ -328,7 +328,7 @@ export default function TopBar() {
                 <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-60 overflow-hidden rounded-2xl border border-line/70 bg-surface/95 shadow-2xl backdrop-blur-xl animate-fade-in">
                   <div className="border-b border-line/60 px-4 py-3">
                     <p className="truncate text-[13px] font-bold text-ink">
-                      {userName || 'Слухач MusicFlow'}
+                      {userName || 'Слухач Music Player 1228'}
                     </p>
                     <p className="truncate text-[11px] text-muted">{user.email}</p>
                   </div>

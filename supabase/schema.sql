@@ -1,5 +1,5 @@
 -- =====================================================================
---  MusicFlow — спільна музична бібліотека (Supabase)
+--  Music Player 1228 — спільна музична бібліотека (Supabase)
 --  Виконайте цей файл один раз у Supabase Dashboard → SQL Editor.
 --  Скрипт ідемпотентний: його можна запускати повторно.
 -- =====================================================================
@@ -16,7 +16,7 @@ create table if not exists public.profiles (
 );
 
 comment on table public.profiles is
-  'Публічні профілі користувачів MusicFlow.';
+  'Публічні профілі користувачів Music Player 1228.';
 
 -- ---------------------------------------------------------------------
 -- 2. Треки
@@ -37,7 +37,7 @@ create table if not exists public.tracks (
 );
 
 comment on table public.tracks is
-  'Опубліковані треки спільноти MusicFlow. Файли лежать у Storage.';
+  'Опубліковані треки спільноти Music Player 1228. Файли лежать у Storage.';
 
 -- Міграційні доповнення для проєктів, створених раніше.
 alter table public.tracks add column if not exists duration numeric;
@@ -90,7 +90,7 @@ begin
   end if;
 
   if char_length(desired_username) < 2 then
-    desired_username := 'Слухач MusicFlow';
+    desired_username := 'Слухач Music Player 1228';
   end if;
 
   insert into public.profiles (id, username, avatar_url)
@@ -120,7 +120,7 @@ select
         then trim(u.raw_user_meta_data ->> 'username')
       when char_length(trim(coalesce(split_part(coalesce(u.email, ''), '@', 1), ''))) >= 2
         then trim(split_part(coalesce(u.email, ''), '@', 1))
-      else 'Слухач MusicFlow'
+      else 'Слухач Music Player 1228'
     end,
     30
   )

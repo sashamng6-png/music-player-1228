@@ -28,7 +28,7 @@ export default function UploadTrackPage() {
   const handleSubmit = async (values, onProgress) => {
     const track = await createTrack(values, onProgress);
     setPublished(track);
-    pushToast('Трек опубліковано в спільноті MusicFlow', 'success');
+    pushToast('Трек опубліковано в спільноті Music Player 1228', 'success');
   };
 
   if (!configured) {
@@ -161,7 +161,7 @@ export default function UploadTrackPage() {
             Завантажити трек
           </h1>
           <p className="mt-1 text-sm text-muted">
-            Файл потрапить у Supabase Storage, а трек — у спільну бібліотеку MusicFlow.
+            Файл потрапить у Supabase Storage, а трек — у спільну бібліотеку Music Player 1228.
           </p>
         </div>
         <button

@@ -175,7 +175,7 @@ export default function PlaylistPage() {
               {isCurated ? (
                 <>
                   <Sparkles className="h-3 w-3" />
-                  Збірка MusicFlow
+                  Збірка Music Player 1228
                 </>
               ) : (
                 <>
@@ -190,7 +190,7 @@ export default function PlaylistPage() {
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
               {playlist.description ||
                 (isCurated
-                  ? 'Готова добірка з демонстраційної бібліотеки MusicFlow.'
+                  ? 'Готова добірка з демонстраційної бібліотеки Music Player 1228.'
                   : 'Власна добірка. Додайте треки з бібліотеки, щоб наповнити її.')}
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold text-muted">

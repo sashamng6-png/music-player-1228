@@ -395,7 +395,7 @@ export default function ProfilePage() {
               {isOwn ? 'Мій профіль' : 'Автор спільноти'}
             </p>
             <h1 className="mt-1.5 truncate font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              {displayProfile?.username || (isLoading ? 'Завантаження...' : 'Слухач MusicFlow')}
+              {displayProfile?.username || (isLoading ? 'Завантаження...' : 'Слухач Music Player 1228')}
             </h1>
             <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
               {displayProfile?.created_at ? (

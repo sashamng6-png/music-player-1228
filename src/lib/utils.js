@@ -193,7 +193,7 @@ export function createLocalCover(title = 'Трек', artist = 'You') {
         .join('')}
     </g>
     <text x="60" y="690" font-family="Arial, sans-serif" font-size="120" font-weight="700" fill="#ffffff" fill-opacity="0.92">${initials || '♪'}</text>
-    <text x="64" y="740" font-family="Arial, sans-serif" font-size="26" fill="#ffffff" fill-opacity="0.65">MusicFlow · local</text>
+    <text x="64" y="740" font-family="Arial, sans-serif" font-size="26" fill="#ffffff" fill-opacity="0.65">Music Player 1228 · local</text>
   </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }

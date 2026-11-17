@@ -114,7 +114,7 @@ export default function SettingsModal() {
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         title="Налаштування"
-        description="Зовнішній вигляд, відтворення та локальні дані MusicFlow."
+        description="Зовнішній вигляд, відтворення та локальні дані Music Player 1228."
         icon={<Settings2 className="h-5 w-5" />}
         size="lg"
         footer={
@@ -406,7 +406,7 @@ export default function SettingsModal() {
           </Section>
 
           <div className="px-1 text-center text-[10px] leading-relaxed text-muted">
-            MusicFlow · React + TailwindCSS + HTML5 Audio API · без бекенду
+            Music Player 1228 · React + TailwindCSS + HTML5 Audio API · без бекенду
           </div>
         </div>
       </Modal>

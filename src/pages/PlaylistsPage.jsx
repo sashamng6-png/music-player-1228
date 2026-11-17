@@ -77,7 +77,7 @@ export default function PlaylistsPage() {
       <section>
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Sparkles className="h-4 w-4 text-accent2" />
-          <h2 className="section-title">Збірки MusicFlow</h2>
+          <h2 className="section-title">Збірки Music Player 1228</h2>
           <span className="rounded-full border border-accent/20 bg-accent/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-accent">
             редакція
           </span>

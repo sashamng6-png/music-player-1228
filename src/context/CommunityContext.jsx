@@ -25,7 +25,7 @@ import { createLocalCover } from '../lib/utils';
 const CommunityContext = createContext(null);
 
 export const COMMUNITY_ID_PREFIX = 'community-';
-export const COMMUNITY_ALBUM = 'Спільнота MusicFlow';
+export const COMMUNITY_ALBUM = 'Спільнота Music Player 1228';
 export const COMMUNITY_GENRES = [
   'Synthwave',
   'Lo-Fi',
@@ -411,7 +411,7 @@ export function CommunityProvider({ children }) {
       Promise.allSettled(cleanup).then((results) => {
         const failed = results.filter((item) => item.status === 'rejected');
         if (failed.length) {
-          console.warn('[MusicFlow] Не вдалося видалити файли зі Storage', failed);
+          console.warn('[Music Player 1228] Не вдалося видалити файли зі Storage', failed);
         }
       });
 
@@ -434,7 +434,7 @@ export function CommunityProvider({ children }) {
         .maybeSingle();
 
       if (profileError) {
-        console.warn('[MusicFlow] Не вдалося завантажити профіль', profileError);
+        console.warn('[Music Player 1228] Не вдалося завантажити профіль', profileError);
         return null;
       }
       if (data) {

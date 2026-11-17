@@ -1,5 +1,5 @@
 /**
- * MusicFlow demo media generator.
+ * Music Player 1228 demo media generator.
  *
  * Every audio file in this project is an original instrumental sketch synthesized
  * from scratch by this script (no samples, no third-party recordings). That keeps
@@ -914,7 +914,7 @@ function coverSvg(cfg) {
   <rect width="800" height="800" fill="url(#shade)"/>
   <rect width="800" height="800" filter="url(#grain)"/>
   <g font-family="Inter, Segoe UI, Arial, sans-serif" fill="#fff">
-    <text x="56" y="622" font-size="19" letter-spacing="5" opacity="0.7">MUSICFLOW · ${cfg.genre.toUpperCase()}</text>
+    <text x="56" y="622" font-size="19" letter-spacing="5" opacity="0.7">MUSIC PLAYER 1228 · ${cfg.genre.toUpperCase()}</text>
     <text x="56" y="700" font-size="56" font-weight="700" letter-spacing="-1">${escapeXml(cfg.title)}</text>
     <text x="56" y="750" font-size="26" opacity="0.85">${escapeXml(cfg.artist)} — ${escapeXml(label)}</text>
   </g>
