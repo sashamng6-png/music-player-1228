@@ -104,13 +104,20 @@ export function friendlyAuthError(error) {
 
 export function friendlyDataError(error, fallback = 'Не вдалося виконати запит до Supabase.') {
   const message = error?.message || '';
+  const code = error?.code || '';
   if (message.includes('row-level security')) {
     return 'Доступ заборонено правилами безпеки Supabase.';
   }
   if (message.includes('Bucket not found')) {
     return 'Сховище Supabase не створене. Запустіть SQL зі supabase/schema.sql.';
   }
-  if (message.includes('relation') && message.includes('does not exist')) {
+  if (
+    code === 'PGRST205' ||
+    code === '42P01' ||
+    message.includes('Could not find the table') ||
+    message.includes('schema cache') ||
+    (message.includes('relation') && message.includes('does not exist'))
+  ) {
     return 'Таблиці Supabase не створені. Запустіть SQL зі supabase/schema.sql.';
   }
   if (message.includes('Failed to fetch')) {
