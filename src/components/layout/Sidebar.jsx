@@ -245,7 +245,7 @@ export default function Sidebar() {
         />
         <aside
           className={cn(
-            'absolute inset-y-0 left-0 flex w-[86vw] max-w-[320px] flex-col border-r border-line/60 bg-surface shadow-2xl transition-transform duration-300 ease-out',
+            'absolute inset-y-0 left-0 flex w-[86vw] max-w-[320px] flex-col border-r border-line/60 bg-surface pb-[env(safe-area-inset-bottom,0px)] pt-[env(safe-area-inset-top,0px)] shadow-2xl transition-transform duration-300 ease-out',
             sidebarOpen ? 'translate-x-0' : '-translate-x-full',
           )}
           aria-label="Мобільне меню"

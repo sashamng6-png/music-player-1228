@@ -6,7 +6,7 @@
  * - аудіо та запити до Supabase не кешуються, щоб не з'їдати диск і трафік.
  */
 
-const CACHE_NAME = 'mp1228-shell-v2';
+const CACHE_NAME = 'mp1228-shell-v3';
 const SHELL_URLS = ['./', './index.html', './manifest.webmanifest'];
 const CACHEABLE_DESTINATIONS = ['script', 'style', 'image', 'font', 'manifest'];
 

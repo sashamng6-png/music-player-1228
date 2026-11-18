@@ -33,7 +33,7 @@ export default function PlayerBar() {
   const compact = settings.playerSize === 'compact';
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50">
+    <div className="fixed inset-x-0 bottom-[var(--tabbar-height)] z-50">
       {playbackError ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-full flex justify-center px-2 pb-2 sm:px-5">
           <div
@@ -58,7 +58,7 @@ export default function PlayerBar() {
         </div>
       ) : null}
 
-      <div className="glass-bar border-t pb-[env(safe-area-inset-bottom)] shadow-[0_-16px_40px_-24px_rgba(0,0,0,0.55)]">
+      <div className="player-bar-shell glass-bar border-t shadow-[0_-16px_40px_-24px_rgba(0,0,0,0.55)]">
         {/* desktop / tablet */}
         <div
           className={cn(

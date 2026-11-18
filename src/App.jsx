@@ -6,12 +6,13 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import { AppProvider } from './context/AppContext';
+import { AppProvider, useApp } from './context/AppContext';
 import { AuthProvider } from './context/AuthContext';
 import { CommunityProvider } from './context/CommunityContext';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import Sidebar from './components/layout/Sidebar';
 import TopBar from './components/layout/TopBar';
+import MobileTabBar from './components/layout/MobileTabBar';
 import PlayerBar from './components/player/PlayerBar';
 import NowPlayingPanel from './components/player/NowPlayingPanel';
 import SettingsModal from './components/settings/SettingsModal';
@@ -40,6 +41,18 @@ function ScrollToTop() {
 function AppShell() {
   useKeyboardShortcuts();
   const { pathname } = useLocation();
+  const { currentTrack, settings } = useApp();
+
+  /* Мобільний плеєр згортається, поки не вибрано трек. */
+  useEffect(() => {
+    document.documentElement.dataset.player = currentTrack ? 'active' : 'idle';
+  }, [currentTrack]);
+
+  /* Колір системної панелі (Android Chrome, iOS PWA) відповідає темі. */
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', settings.theme === 'light' ? '#f3f5f9' : '#07080c');
+  }, [settings.theme]);
 
   return (
     <>
@@ -75,6 +88,7 @@ function AppShell() {
       </div>
 
       <PlayerBar />
+      <MobileTabBar />
       <NowPlayingPanel />
       <SettingsModal />
       <AddToPlaylistModal />

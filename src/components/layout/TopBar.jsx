@@ -140,7 +140,7 @@ export default function TopBar() {
   };
 
   return (
-    <header className="sticky top-0 z-30 border-b border-line/40 bg-[rgb(var(--bg))]/75 backdrop-blur-2xl">
+    <header className="sticky top-0 z-30 border-b border-line/40 bg-[rgb(var(--bg))]/75 pt-[env(safe-area-inset-top,0px)] backdrop-blur-2xl">
       <div className="mx-auto flex h-[72px] max-w-[1500px] items-center gap-2 px-3 sm:gap-3 sm:px-5 lg:px-8">
         <button
           type="button"

@@ -184,6 +184,34 @@ npm run deploy
 іконки в `public/icons/`, реєстрація — у `src/main.jsx` і лише в production-збірці.
 PWA потребує HTTPS (GitHub Pages це забезпечує; локально працює `localhost`).
 
+### Мобільний вигляд
+
+- Нижня навігація (Головна · Спільнота · Бібліотека · Мої треки · Ще) на екранах до 1024px.
+- Міні-плеєр стоїть над вкладками; поки трек не вибрано — не займає місця.
+- Враховано «чубчик» і жести: `env(safe-area-inset-*)` у шапці, меню та плеєрі.
+- Splash-екрани для iOS — `public/splash/` (підключені в `index.html`).
+- `theme-color` змінюється разом із темою (темна/світла).
+- Поля вводу на мобільних мають 16px, щоб Safari не зумив сторінку при фокусі.
+
+### APK для Android (за бажанням)
+
+Готовий `.apk` можна отримати двома шляхами:
+
+1. **PWABuilder** — <https://www.pwabuilder.com>: вставити URL опублікованого сайту →
+   **Android** → завантажити пакет. Нічого встановлювати на комп'ютер не потрібно
+   (для Google Play — власний ключ підпису й акаунт розробника).
+2. **Capacitor** — якщо є Android Studio:
+   ```bash
+   npm i -D @capacitor/cli @capacitor/core @capacitor/android
+   npx cap init "Music Player 1228" app.musicplayer1228 --web-dir=dist
+   npm run build && npx cap add android && npx cap sync
+   npx cap open android
+   ```
+   Далі **Build → Generate Signed Bundle / APK**.
+
+Для iPhone окремого файлу немає: Apple дозволяє встановлювати лише з App Store
+(потрібен Mac і акаунт розробника), тому на iOS використовуйте PWA з Safari.
+
 ---
 
 ## Безпека
@@ -220,6 +248,8 @@ src/
     supabase.js           # клієнт, валідація, upload із прогресом
   hooks/
     useInstallPrompt.js   # рідна кнопка «Встановити застосунок» (PWA)
+  components/layout/
+    MobileTabBar.jsx      # нижня навігація для телефонів
   pages/
     CommunityPage.jsx
     UploadTrackPage.jsx
@@ -229,6 +259,7 @@ public/
   manifest.webmanifest    # PWA-манифест
   sw.js                   # service worker (офлайн-оболонка)
   icons/                  # іконки 192/512/maskable/apple
+  splash/                 # splash-екрани iOS
 supabase/schema.sql
 .github/workflows/deploy.yml
 ```

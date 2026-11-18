@@ -17,6 +17,7 @@
   --accent-2: 139 92 246;
   --accent-contrast: 5 12 16;
   --player-height: 96px;
+  --tabbar-height: 0px;
   --sidebar-width: 264px;
   --radius: 20px;
 }
@@ -195,7 +196,7 @@
   }
 
   .app-main {
-    padding-bottom: calc(var(--player-height) + 2rem);
+    padding-bottom: calc(var(--player-height) + var(--tabbar-height) + 2rem);
   }
 
   .glass-bar {
@@ -347,6 +348,13 @@ input[type='range'].slider:hover::-moz-range-thumb {
   --player-height: 82px;
 }
 
+/* Нижня навігація: на телефонах і планшетах бічна панель ховається (lg). */
+@media (max-width: 1023px) {
+  :root {
+    --tabbar-height: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 @media (max-width: 767px) {
   :root {
     --player-height: 128px;
@@ -354,8 +362,27 @@ input[type='range'].slider:hover::-moz-range-thumb {
   :root[data-player-size='compact'] {
     --player-height: 128px;
   }
+  /* Поки трек не вибрано, мобільний плеєр не займає місця. */
+  :root[data-player='idle'] {
+    --player-height: 0px;
+  }
+  :root[data-player='idle'] .player-bar-shell {
+    display: none;
+  }
   .app-main {
-    padding-bottom: calc(var(--player-height) + 1.25rem);
+    padding-bottom: calc(var(--player-height) + var(--tabbar-height) + 1.25rem);
+  }
+
+  /* iOS Safari автоматично зумить сторінку, якщо шрифт у полі < 16px. */
+  input[type='text'],
+  input[type='search'],
+  input[type='email'],
+  input[type='password'],
+  input[type='url'],
+  input[type='tel'],
+  input[type='number'],
+  textarea {
+    font-size: 16px;
   }
 }
 
