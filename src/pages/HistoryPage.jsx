@@ -8,7 +8,7 @@ import ConfirmDialog from '../components/ui/ConfirmDialog';
 import TrackRow from '../components/tracks/TrackRow';
 
 export default function HistoryPage() {
-  const { historyEntries, clearHistory, playCollection, demoTracks } = useApp();
+  const { historyEntries, clearHistory, playCollection } = useApp();
   const [confirmClear, setConfirmClear] = useState(false);
 
   const tracks = historyEntries.map((entry) => entry.track);
@@ -107,16 +107,12 @@ export default function HistoryPage() {
           description="Увімкніть будь-який трек — і тут з’явиться список нещодавно прослуханих композицій."
           action={
             <>
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={() => playCollection(demoTracks)}
-              >
+              <Link to="/library" className="btn-primary">
                 <Play className="h-4 w-4 fill-current" />
-                Почати слухати
-              </button>
-              <Link to="/library" className="btn-secondary">
                 До бібліотеки
+              </Link>
+              <Link to="/community" className="btn-secondary">
+                Спільнота
               </Link>
             </>
           }

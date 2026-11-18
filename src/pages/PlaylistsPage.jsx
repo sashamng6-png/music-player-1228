@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FolderHeart, ListMusic, Plus, Sparkles } from 'lucide-react';
+import { FolderHeart, ListMusic, Plus } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import EmptyState from '../components/ui/EmptyState';
 import PlaylistCard from '../components/playlists/PlaylistCard';
 import CreatePlaylistModal from '../components/playlists/CreatePlaylistModal';
 
 export default function PlaylistsPage() {
-  const { playlists, curatedPlaylists } = useApp();
+  const { playlists } = useApp();
   const navigate = useNavigate();
   const [createOpen, setCreateOpen] = useState(false);
 
@@ -72,24 +72,6 @@ export default function PlaylistsPage() {
             }
           />
         )}
-      </section>
-
-      <section>
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          <Sparkles className="h-4 w-4 text-accent2" />
-          <h2 className="section-title">Збірки Music Player 1228</h2>
-          <span className="rounded-full border border-accent/20 bg-accent/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-accent">
-            редакція
-          </span>
-        </div>
-        <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-          Готові добірки з демонстраційної бібліотеки — слухайте одразу або додавайте треки у власні плейлисти.
-        </p>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-          {curatedPlaylists.map((playlist) => (
-            <PlaylistCard key={playlist.id} playlist={playlist} />
-          ))}
-        </div>
       </section>
 
       <div className="flex items-start gap-2 rounded-2xl border border-line/50 bg-surface/35 px-4 py-3 text-[10px] leading-relaxed text-muted">

@@ -7,17 +7,17 @@ import {
   useRef,
   useState,
 } from 'react';
-import {
-  CURATED_PLAYLISTS,
-  DEFAULT_SETTINGS,
-  DEMO_TRACKS,
-  SEED_PLAYLISTS,
-} from '../data/library';
+import { DEFAULT_SETTINGS } from '../data/library';
 import {
   STORAGE_KEYS,
   readStored,
   usePersistentState,
 } from '../lib/storage';
+import {
+  cleanLegacyFavorites,
+  cleanLegacyHistory,
+  cleanLegacyPlaylists,
+} from '../lib/legacyDemo';
 import {
   clearAudioBlobs,
   deleteAudioBlob,
@@ -25,7 +25,6 @@ import {
   saveAudioBlob,
 } from '../lib/db';
 import {
-  assetUrl,
   clamp,
   createLocalCover,
   downloadJson,
@@ -54,15 +53,20 @@ export function AppProvider({ children }) {
     mergeSettings,
   );
   const [favorites, setFavorites] = usePersistentState(STORAGE_KEYS.favorites, []);
-  const [playlists, setPlaylists] = usePersistentState(
-    STORAGE_KEYS.playlists,
-    SEED_PLAYLISTS,
-  );
+  const [playlists, setPlaylists] = usePersistentState(STORAGE_KEYS.playlists, []);
   const [history, setHistory] = usePersistentState(STORAGE_KEYS.history, []);
   const [localMeta, setLocalMeta] = usePersistentState(STORAGE_KEYS.localTracks, []);
   const [localTracks, setLocalTracks] = useState([]);
   const [communityTracks, setCommunityTracks] = useState([]);
   const [libraryReady, setLibraryReady] = useState(false);
+
+  /* Одноразово прибираємо зі сховища сліди демо-бібліотеки, якої вже немає. */
+  useEffect(() => {
+    setFavorites((prev) => cleanLegacyFavorites(prev));
+    setPlaylists((prev) => cleanLegacyPlaylists(prev));
+    setHistory((prev) => cleanLegacyHistory(prev));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* ---------------------------------------------------------------- */
   /* ui state                                                          */
@@ -105,17 +109,9 @@ export function AppProvider({ children }) {
   /* ---------------------------------------------------------------- */
   /* library                                                           */
   /* ---------------------------------------------------------------- */
-  const demoTracks = useMemo(
-    () =>
-      DEMO_TRACKS.map((track) => ({
-        ...track,
-        src: assetUrl(track.src),
-        cover: assetUrl(track.cover),
-      })),
-    [],
-  );
+  /* «Моя музика» — лише файли, які користувач додав на цьому пристрої. */
+  const allTracks = localTracks;
 
-  const allTracks = useMemo(() => [...localTracks, ...demoTracks], [localTracks, demoTracks]);
   /* Community uploads are playable but never mixed into "Моя музика". */
   const playableTracks = useMemo(
     () => [...communityTracks, ...allTracks],
@@ -152,7 +148,7 @@ export function AppProvider({ children }) {
   );
 
   const getPlaylistById = useCallback(
-    (id) => playlists.find((playlist) => playlist.id === id) || CURATED_PLAYLISTS.find((playlist) => playlist.id === id) || null,
+    (id) => playlists.find((playlist) => playlist.id === id) || null,
     [playlists],
   );
 
@@ -1125,10 +1121,7 @@ export function AppProvider({ children }) {
         const text = await file.text();
         const data = JSON.parse(text);
         if (!data || typeof data !== 'object') throw new Error('Невірний формат файлу');
-        const validIds = new Set([
-          ...DEMO_TRACKS.map((track) => track.id),
-          ...stateRef.current.trackMap.keys(),
-        ]);
+        const validIds = new Set(stateRef.current.trackMap.keys());
         if (Array.isArray(data.favorites)) {
           setFavorites(data.favorites.filter((id) => validIds.has(id)));
         }
@@ -1183,7 +1176,7 @@ export function AppProvider({ children }) {
     setLocalTracks([]);
     setLocalMeta([]);
     setFavorites([]);
-    setPlaylists(SEED_PLAYLISTS);
+    setPlaylists([]);
     setHistory([]);
     setSettings(DEFAULT_SETTINGS);
     setVolumeState(clamp(Number(DEFAULT_SETTINGS.defaultVolume) || 0.8, 0, 1));
@@ -1246,7 +1239,6 @@ export function AppProvider({ children }) {
   const value = {
     /* library */
     allTracks,
-    demoTracks,
     localTracks,
     communityTracks,
     setCommunityTracks,
@@ -1258,7 +1250,6 @@ export function AppProvider({ children }) {
     historyEntries,
     queueTracks,
     playlists,
-    curatedPlaylists: CURATED_PLAYLISTS,
     userPlaylistById,
     getPlaylistById,
     resolvePlaylistTracks,

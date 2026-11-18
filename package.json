@@ -21,7 +21,6 @@
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
-    "@breezystack/lamejs": "^1.2.7",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "gh-pages": "^6.2.0",
